@@ -16,22 +16,31 @@ def parse_input(user_input):
     cmd = cmd.strip().lower()
     return cmd, *args
 
+@input_error
 def add_contact(args, contacts):
     name, phone = args
     name = name.lower()
     contacts[name] = phone
     return 'Contact added.'
 
+@input_error
 def change_contact(args, contacts):
     name, phone = args
     name = name.lower()
-    contacts[name] = phone
-    return 'Contact updated.'
-    
+    if name in contacts:
+        contacts[name] = phone
+        return 'Contact updated.'
+    else:
+        return 'Contacts not found.'
+
+@input_error
 def show_phone(args, contacts):
     name = args[0].lower()
-    return contacts[name]
-    
+    if name in contacts:
+        return contacts[name]
+    else:
+        return 'Contacts not found.'
+
 def show_all(contacts):
     if not contacts:
         return 'No contacts found.'
